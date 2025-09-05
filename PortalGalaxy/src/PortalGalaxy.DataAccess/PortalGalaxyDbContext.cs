@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace PortalGalaxy.DataAccess
 {
@@ -19,8 +20,10 @@ namespace PortalGalaxy.DataAccess
             configurationBuilder.Properties<string>()
                 .HaveMaxLength(100);
 
-            configurationBuilder.Properties<DateTime>()
-                .HaveColumnType("DATETIME");
+            //configurationBuilder.Properties<DateTime>()
+            //    .HaveColumnType("DATETIME");
+
+            configurationBuilder.Conventions.Remove<SqlServerOnDeleteConvention>();
         }
     }
 }

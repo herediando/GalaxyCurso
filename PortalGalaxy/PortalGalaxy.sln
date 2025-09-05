@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortalGalaxy.Common", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortalGalaxy.DataAccess", "src\PortalGalaxy.DataAccess\PortalGalaxy.DataAccess.csproj", "{541ED317-6843-D703-65F4-E7AEE7A40BA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortalGalaxy.Repositories", "src\PortalGalaxy.Repositories\PortalGalaxy.Repositories.csproj", "{9BC2087A-9E31-4F4D-B9FB-E1B2C78F8FBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{541ED317-6843-D703-65F4-E7AEE7A40BA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{541ED317-6843-D703-65F4-E7AEE7A40BA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{541ED317-6843-D703-65F4-E7AEE7A40BA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BC2087A-9E31-4F4D-B9FB-E1B2C78F8FBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BC2087A-9E31-4F4D-B9FB-E1B2C78F8FBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BC2087A-9E31-4F4D-B9FB-E1B2C78F8FBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BC2087A-9E31-4F4D-B9FB-E1B2C78F8FBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{4B33CAAE-92A5-4095-8408-226972681F1F} = {F609B560-C08A-4847-A3D7-6D1970C2E7FF}
 		{EDE3FCD4-96CF-4B11-8C9E-C5B7BBAB5969} = {2565441B-DACA-406E-9C37-2A3309DA08C7}
 		{541ED317-6843-D703-65F4-E7AEE7A40BA5} = {052D983C-BEB2-4199-BE0D-E11CF2B3FC3D}
+		{9BC2087A-9E31-4F4D-B9FB-E1B2C78F8FBF} = {052D983C-BEB2-4199-BE0D-E11CF2B3FC3D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7D6238CF-7201-472B-AE11-CCE24993E5CC}

@@ -19,8 +19,14 @@ namespace PortalGalaxy.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NombreCompleto = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     NroDocumento = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Correo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Telefono = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Departamento = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Provincia = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Distrito = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    FechaInscripcion = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Estado = table.Column<bool>(type: "bit", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "DATETIME", nullable: false)
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,7 +41,7 @@ namespace PortalGalaxy.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Estado = table.Column<bool>(type: "bit", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "DATETIME", nullable: false)
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,7 +58,7 @@ namespace PortalGalaxy.DataAccess.Migrations
                     NroDocumento = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CategoriaId = table.Column<int>(type: "int", nullable: false),
                     Estado = table.Column<bool>(type: "bit", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "DATETIME", nullable: false)
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,8 +67,7 @@ namespace PortalGalaxy.DataAccess.Migrations
                         name: "FK_Instructor_Categoria_CategoriaId",
                         column: x => x.CategoriaId,
                         principalTable: "Categoria",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -81,7 +86,7 @@ namespace PortalGalaxy.DataAccess.Migrations
                     TemarioUrl = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: true),
                     Descripcion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Estado = table.Column<bool>(type: "bit", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "DATETIME", nullable: false)
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,14 +95,12 @@ namespace PortalGalaxy.DataAccess.Migrations
                         name: "FK_Taller_Categoria_CategoriaId",
                         column: x => x.CategoriaId,
                         principalTable: "Categoria",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Taller_Instructor_InstructorId",
                         column: x => x.InstructorId,
                         principalTable: "Instructor",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(

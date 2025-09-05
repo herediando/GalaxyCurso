@@ -13,7 +13,12 @@ public class CategoriaConfiguration : IEntityTypeConfiguration<Categoria>
 
         builder.HasData(new List<Categoria>
         {
-            new() { Id = 1, Nombre = ".NET", FechaCreacion = Convert.ToDateTime(Constantes.FechaCreacionDefault)}
+            new() { Id = 1, Nombre = ".NET", FechaCreacion = Constantes.FechaCreacionDefault},
+            new() { Id = 2, Nombre = "Java", FechaCreacion = Constantes.FechaCreacionDefault},
+            new() { Id = 3, Nombre = "Python", FechaCreacion = Constantes.FechaCreacionDefault},
+            new() { Id = 4, Nombre = "AWS", FechaCreacion = Constantes.FechaCreacionDefault}
         });
+
+        builder.HasQueryFilter(p => p.Estado);
     }
 }

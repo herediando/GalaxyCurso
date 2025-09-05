@@ -2,6 +2,6 @@
 {
     public static class Constantes
     {
-        public const string FechaCreacionDefault = "2025-09-04";
+        public static readonly DateTime FechaCreacionDefault = new DateTime(2025, 9,4);
     }
 }

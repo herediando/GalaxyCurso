@@ -12,8 +12,8 @@ using PortalGalaxy.DataAccess;
 namespace PortalGalaxy.DataAccess.Migrations
 {
     [DbContext(typeof(PortalGalaxyDbContext))]
-    [Migration("20250905034014_SecondMigration")]
-    partial class SecondMigration
+    [Migration("20250905035514_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,10 +52,10 @@ namespace PortalGalaxy.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaInscripcion")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("NombreCompleto")
                         .IsRequired()
@@ -93,7 +93,7 @@ namespace PortalGalaxy.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -129,7 +129,7 @@ namespace PortalGalaxy.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Nombres")
                         .IsRequired()
@@ -167,7 +167,7 @@ namespace PortalGalaxy.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateOnly>("FechaInicio")
                         .HasColumnType("date");
@@ -210,7 +210,6 @@ namespace PortalGalaxy.DataAccess.Migrations
                     b.HasOne("PortalGalaxy.Entities.Categoria", "Categoria")
                         .WithMany()
                         .HasForeignKey("CategoriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Categoria");
@@ -221,13 +220,11 @@ namespace PortalGalaxy.DataAccess.Migrations
                     b.HasOne("PortalGalaxy.Entities.Categoria", "Categoria")
                         .WithMany()
                         .HasForeignKey("CategoriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PortalGalaxy.Entities.Instructor", "Instructor")
                         .WithMany("Talleres")
                         .HasForeignKey("InstructorId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Categoria");
