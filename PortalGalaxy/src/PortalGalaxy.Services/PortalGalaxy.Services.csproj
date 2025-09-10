@@ -6,4 +6,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="../PortalGalaxy.Common/PortalGalaxy.Common.csproj" />
+    <ProjectReference Include="../PortalGalaxy.DataAccess/PortalGalaxy.DataAccess.csproj" />
+    <ProjectReference Include="../PortalGalaxy.Entities/PortalGalaxy.Entities.csproj" />
+    <ProjectReference Include="../PortalGalaxy.Repositories/PortalGalaxy.Repositories.csproj" />
+  </ItemGroup>
+
 </Project>
