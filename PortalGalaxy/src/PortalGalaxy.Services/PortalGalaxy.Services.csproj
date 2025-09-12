@@ -13,4 +13,8 @@
     <ProjectReference Include="../PortalGalaxy.Repositories/PortalGalaxy.Repositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.0" />
+  </ItemGroup>
+
 </Project>

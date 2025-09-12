@@ -7,6 +7,7 @@ using PortalGalaxy.Common.Configuration;
 using PortalGalaxy.DataAccess;
 using PortalGalaxy.Repositories.Interfaces;
 using PortalGalaxy.Services.Interfaces;
+using PortalGalaxy.Services.Profiles;
 using Scrutor;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,13 @@ builder.Services.Scan(s => s
     .AsMatchingInterface()
     .WithScopedLifetime()
 );
+
+// Configuramos los AutoMapper
+builder.Services.AddAutoMapper(c =>
+{
+    c.AddProfile<TallerProfile>();
+    c.AddProfile<InstructorProfile>();
+});
 
 builder.Services.AddDbContext<PortalGalaxyDbContext>(options =>
 {

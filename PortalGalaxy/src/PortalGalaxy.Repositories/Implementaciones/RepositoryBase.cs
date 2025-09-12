@@ -78,4 +78,35 @@ public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : 
             .Select(selector)
             .ToListAsync();
     }
+
+    public async Task<(ICollection<TInfo> Collection, int Total)> ListAsync<TInfo, TKey>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TInfo>> selector, Expression<Func<TEntity, TKey>> orderBy, int pageNumber = 1, int pageSize = 5, string? relations = null)
+    {
+        var collection = Context.Set<TEntity>()
+            .Where(predicate)
+            .AsQueryable();
+
+        // SELECT DE TALLERS: "Instructor,Categoria"
+        if (!string.IsNullOrWhiteSpace(relations))
+        {
+            foreach (var tabla in relations.Split(',', StringSplitOptions.RemoveEmptyEntries))
+            {
+                collection = collection.Include(tabla);
+            }
+        }
+
+        var total = await Context.Set<TEntity>()
+                    .Where(predicate)
+                    .CountAsync();
+
+        var items = await collection
+            .AsNoTracking()
+            .IgnoreQueryFilters()
+            .OrderBy(orderBy)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .Select(selector)
+            .ToListAsync();
+
+        return (items, total);
+    }
 }
