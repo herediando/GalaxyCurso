@@ -1,3 +1,15 @@
 ﻿@inherits LayoutComponentBase
 
-@Body
+<GalaxyHeader />
+<BlazoredToasts />
+
+<div class="container-fluid">
+    <div class="row gx-2">
+        <div class="col-2">
+            <NavMenu />
+        </div>
+        <div class="col-10">
+            @Body
+        </div>
+    </div>
+</div>

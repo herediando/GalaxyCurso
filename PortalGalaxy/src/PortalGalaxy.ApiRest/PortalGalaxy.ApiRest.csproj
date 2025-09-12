@@ -29,6 +29,8 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="wwwroot/" />
+    <Folder Include="wwwroot/data/" />
   </ItemGroup>
 
 </Project>

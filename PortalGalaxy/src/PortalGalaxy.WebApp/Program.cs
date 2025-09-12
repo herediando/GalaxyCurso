@@ -1,3 +1,4 @@
+using System.Reflection;
 using Blazored.SessionStorage;
 using Blazored.Toast;
 using CurrieTechnologies.Razor.SweetAlert2;
@@ -8,6 +9,7 @@ using PortalGalaxy.WebApp;
 using PortalGalaxy.WebApp.Auth;
 using PortalGalaxy.WebApp.Proxy.Interfaces;
 using PortalGalaxy.WebApp.Proxy.Services;
+using Scrutor;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -19,7 +21,14 @@ builder.Services.AddBlazoredSessionStorage();
 builder.Services.AddBlazoredToast();
 builder.Services.AddSweetAlert2();
 
-builder.Services.AddScoped<IUserProxy, UserProxy>();
+// Registramos las dependencias de forma automatica con Scrutor
+builder.Services.Scan(s => s
+    .FromAssemblies(Assembly.GetExecutingAssembly())
+    .AddClasses(publicOnly: false)
+    .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+    .AsMatchingInterface()
+    .WithScopedLifetime()
+);
 
 builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationService>();
 builder.Services.AddAuthorizationCore();
