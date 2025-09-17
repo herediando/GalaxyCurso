@@ -1,10 +1,9 @@
-using System;
+using PortalGalaxy.Common.Response;
 using System.Net;
 using System.Net.Http.Json;
 using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
-using PortalGalaxy.Common.Response;
 
 namespace PortalGalaxy.WebApp.Proxy.Services;
 
@@ -49,5 +48,19 @@ public abstract class RestBase
             return result;
 
         throw new InvalidOperationException($"Error en la solicitud {url}");
+    }
+
+    protected async Task<TOutput> SendAsync<TOutput>(string url)
+       where TOutput : BaseResponse
+    {
+        var requestMessage = new HttpRequestMessage(HttpMethod.Get, $"{BaseUrl}/{url}");
+
+        var response = await HttpClient.SendAsync(requestMessage);
+
+        // En caso el request falla (Codigo HTTP distinto al 200)
+        response.EnsureSuccessStatusCode();
+
+        var errorResponse = await response.Content.ReadFromJsonAsync<TOutput>();
+        return errorResponse!;
     }
 }

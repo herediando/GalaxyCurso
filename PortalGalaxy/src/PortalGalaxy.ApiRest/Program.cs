@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using PortalGalaxy.Common.Configuration;
 using PortalGalaxy.DataAccess;
 using PortalGalaxy.Repositories.Interfaces;
+using PortalGalaxy.Services.Implementaciones;
 using PortalGalaxy.Services.Interfaces;
 using PortalGalaxy.Services.Profiles;
 using Scrutor;
@@ -31,8 +32,7 @@ builder.Services.Scan(s => s
 // Configuramos los AutoMapper
 builder.Services.AddAutoMapper(c =>
 {
-    c.AddProfile<TallerProfile>();
-    c.AddProfile<InstructorProfile>();
+    c.AddMaps(typeof(TallerProfile).Assembly);
 });
 
 builder.Services.AddDbContext<PortalGalaxyDbContext>(options =>
@@ -110,18 +110,22 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGet("api/Categorias", async (ICategoriaRepository repository) =>
+app.MapPost("api/seed/{tipo:int}", async (int tipo, ILogger<Program> logger) =>
 {
-    var categorias = await repository.ListAsync();
+    try
+    {
+        var scope = app.Services.CreateAsyncScope();
+        if (tipo == 0)
+            await DataSeeder.SeedInstructores(scope.ServiceProvider);
+        else
+            await DataSeeder.SeedTalleres(scope.ServiceProvider);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Error al hacer el data Seeding {Message}", ex.Message);
+    }
 
-    return Results.Ok(categorias);
-}).RequireAuthorization();
-
-app.MapGet("api/CategoriasList", async (string filtro, ICategoriaRepository repository) =>
-{
-    var categorias = await repository.ListAsync(p => p.Nombre.Contains(filtro));
-
-    return Results.Ok(categorias);
+    return Results.Ok();
 });
 
 app.MapFallbackToFile("index.html");

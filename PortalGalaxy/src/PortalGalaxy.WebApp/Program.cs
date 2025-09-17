@@ -1,4 +1,3 @@
-using System.Reflection;
 using Blazored.SessionStorage;
 using Blazored.Toast;
 using CurrieTechnologies.Razor.SweetAlert2;
@@ -7,9 +6,8 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using PortalGalaxy.WebApp;
 using PortalGalaxy.WebApp.Auth;
-using PortalGalaxy.WebApp.Proxy.Interfaces;
-using PortalGalaxy.WebApp.Proxy.Services;
 using Scrutor;
+using System.Reflection;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

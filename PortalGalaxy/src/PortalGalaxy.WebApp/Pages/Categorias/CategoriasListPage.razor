@@ -1,0 +1,56 @@
+﻿@inject ICategoriaProxy Proxy
+@inject IToastService ToastService
+
+@page "/categorias/list"
+
+<h3>Categorías</h3>
+
+@if (Lista == null || !Lista.Any())
+{
+    <p class="alert alert-danger">No hay categorías disponibles.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var categoria in Lista)
+            {
+                <tr>
+                    <td>@categoria.Id</td>
+                    <td>@categoria.Nombre</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<LoadingComponent IsLoading="IsLoading" />
+
+@code {
+    public ICollection<CategoriaDtoResponse>? Lista { get; set; }
+    public bool IsLoading { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            IsLoading = true;
+            Lista = await Proxy.ListAsync();
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+}
