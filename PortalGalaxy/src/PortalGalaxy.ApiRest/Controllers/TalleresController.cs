@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PortalGalaxy.Common.Request;
 using PortalGalaxy.Services.Interfaces;
 
 namespace PortalGalaxy.ApiRest.Controllers
@@ -15,9 +16,9 @@ namespace PortalGalaxy.ApiRest.Controllers
         }
         
         [HttpGet]
-        public async Task<IActionResult> Get(string? nombre, int? categoria, int? situacion, int pageNumber = 1, int pageSize = 5)
+        public async Task<IActionResult> Get([FromQuery] BusquedaTallerRequest request)
         {
-            var response = await _service.ListAsync(nombre, categoria, situacion, pageNumber, pageSize);
+            var response = await _service.ListAsync(request);
 
             return Ok(response);
         }

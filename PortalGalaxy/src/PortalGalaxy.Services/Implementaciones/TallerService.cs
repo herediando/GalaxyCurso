@@ -1,6 +1,7 @@
 using System;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
+using PortalGalaxy.Common.Request;
 using PortalGalaxy.Common.Response;
 using PortalGalaxy.Repositories.Interfaces;
 using PortalGalaxy.Services.Interfaces;
@@ -21,15 +22,16 @@ public class TallerService : ITallerService
         _mapper = mapper;
     }
 
-    public async Task<PaginationResponse<TallerDtoResponse>> ListAsync(string? nombre, int? categoria, int? situacion, int pageNumber, int pageSize)
+    public async Task<PaginationResponse<TallerDtoResponse>> ListAsync(BusquedaTallerRequest request)
     {
         var response = new PaginationResponse<TallerDtoResponse>();
 
         try
         {
-            var (lista, total) = await _repository.ListAsync(nombre, categoria, situacion, pageNumber, pageSize);
+            var (lista, total) = await _repository.ListAsync(request.Nombre, request.Categoria, 
+                request.Situacion, request.PageNumber, request.PageSize);
             response.Data = _mapper.Map<ICollection<TallerDtoResponse>>(lista);
-            response.TotalPages = Helper.GetTotalPages(total, pageSize); // Calcular el total de páginas
+            response.TotalPages = Helper.GetTotalPages(total, request.PageSize); // Calcular el total de páginas
             response.Success = true;
         }
         catch (Exception ex)
