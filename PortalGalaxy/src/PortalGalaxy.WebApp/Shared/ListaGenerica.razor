@@ -2,11 +2,19 @@
 
 <div class="container">
     <h2 class="mt-2">@Titulo</h2>
+    @if (Filtros != null)
+    {
+        <div class="mb-3">
+            @Filtros
+        </div>
+    }
 </div>
 
 @if (Lista == null || !Lista.Any())
 {
-    <p class="alert alert-danger">No hay registros para mostrar.</p>
+    <div class="container my-2">
+        <p class="alert alert-danger">No hay registros para mostrar.</p>
+    </div>
 }
 else
 {
@@ -36,6 +44,9 @@ else
 
     [Parameter]
     public ICollection<TItem>? Lista { get; set; }
+
+    [Parameter]
+    public RenderFragment? Filtros { get; set; }
 
     [Parameter] 
     [EditorRequired]

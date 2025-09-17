@@ -28,6 +28,13 @@ public class JsonProxy : RestBase, IJsonProxy
         return distritos.Where(d => d.CodProvincia == codProvincia).ToList();
     }
 
+    public async Task<ICollection<SituacionModel>> ListSituaciones()
+    {
+        var situaciones = await HttpClient.GetFromJsonAsync<List<SituacionModel>>("data/situaciones.json") ??
+            new List<SituacionModel>();
+        return situaciones;
+    }
+
     public async Task<ICollection<ProvinciaModel>> ListProvincias(string codigoDpto)
     {
         var provincias = await HttpClient.GetFromJsonAsync<List<ProvinciaModel>>("data/provincias.json") ??
