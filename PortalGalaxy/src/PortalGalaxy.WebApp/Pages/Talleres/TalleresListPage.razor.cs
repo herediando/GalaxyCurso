@@ -2,6 +2,7 @@
 using Microsoft.JSInterop;
 using PortalGalaxy.Common.Response;
 using PortalGalaxy.WebApp.Proxy.Interfaces;
+using PortalGalaxy.WebApp.Xls;
 
 namespace PortalGalaxy.WebApp.Pages.Talleres;
 
@@ -80,6 +81,8 @@ public partial class TalleresListPage
 
         await OnSearch();
 
+        IsLoading = false;
+
         return await Task.FromResult(new GridDataProviderResult<TallerDtoResponse>
         {
             Data = Lista ?? new List<TallerDtoResponse>(),
@@ -106,13 +109,38 @@ public partial class TalleresListPage
             {
                 await stream.CopyToAsync(memory);
                 var byteArray = memory.ToArray();
-                
+
                 await JSRuntime.InvokeVoidAsync("descargarArchivo", "talleres.pdf", byteArray, "application/pdf");
             }
-            
+
         }
         catch (Exception ex)
         {
+            ToastService.ShowError(ex.Message);
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private async Task OnExportarExcel()
+    {
+        if (Lista is null) return;
+
+        try
+        {
+            IsLoading = true;
+            var plantilla = await HttpClient.GetStreamAsync("assets/xls/TallerTemplate.xlsx");
+
+            var excel = new PlantillaXls();
+            var bytes = excel.GenerarPlantilla(plantilla, Lista);
+
+            await JSRuntime.InvokeVoidAsync("descargarArchivo", "talleres.xlsx", bytes, "application/octect-stream");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
             ToastService.ShowError(ex.Message);
         }
         finally

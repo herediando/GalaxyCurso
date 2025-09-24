@@ -2,6 +2,7 @@
 @inject ITallerProxy Proxy
 @inject IToastService ToastService
 @inject IJSRuntime JSRuntime
+@inject HttpClient HttpClient
 
 <div class="row mb-3 mt-3">
     <div class="col">
@@ -72,6 +73,10 @@
     <div class="col">
         <button class="btn btn-danger" @onclick="OnExportarPdf"><i class="bi bi-file-earmark-pdf-fill me-1"></i>Exportar
             PDF</button>
+    </div>
+    <div class="col">
+        <button class="btn btn-success" @onclick="OnExportarExcel"><i class="bi bi-file-excel me-1"></i>Exportar
+            Excel</button>
     </div>
 </div>
 
