@@ -18,6 +18,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddBlazoredSessionStorage();
 builder.Services.AddBlazoredToast();
 builder.Services.AddSweetAlert2();
+builder.Services.AddBlazorBootstrap();
 
 // Registramos las dependencias de forma automatica con Scrutor
 builder.Services.Scan(s => s

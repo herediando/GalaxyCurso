@@ -17,8 +17,8 @@
                 <DataAnnotationsValidator />
                 <ValidationSummary class="mb-2" />
 
-                <div class="row g-3">
-                    <div class="col-md-6">
+                <div class="row g-2">
+                    <div class="col-md-12">
                         <div class="form-floating">
                             <InputText id="usuario" class="form-control" placeholder="Usuario" 
                             autocomplete="off" @bind-Value="Request.Usuario" />
@@ -26,7 +26,7 @@
                             <ValidationMessage For="() => Request.Usuario" />
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-floating">
                             <InputText id="nombrecompleto" class="form-control" placeholder="Nombre completo" 
                             autocomplete="off" @bind-Value="Request.NombreCompleto" />
@@ -34,21 +34,21 @@
                             <ValidationMessage For="() => Request.NombreCompleto" />
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-floating">
                             <InputText id="nrodocumento" class="form-control" placeholder="Documento" autocomplete="off" @bind-Value="Request.NroDocumento" />
                             <label for="nrodocumento">Documento</label>
                             <ValidationMessage For="() => Request.NroDocumento" />
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-floating">
                             <InputText id="telefono" class="form-control" placeholder="Teléfono" autocomplete="off" @bind-Value="Request.Telefono" />
                             <label for="telefono">Teléfono</label>
                             <ValidationMessage For="() => Request.Telefono" />
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <div class="form-floating">
                             <InputText id="email" type="email" class="form-control" placeholder="Email" autocomplete="off" @bind-Value="Request.Email" />
                             <label for="email">Email</label>
@@ -56,7 +56,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="input-group form-floating password-wrapper">
                             <input id="password" class="form-control" placeholder="Password" 
                             type="@PasswordInputType" autocomplete="new-password" @bind-value="Request.Password" />
@@ -68,7 +68,7 @@
                         </div>
                         <ValidationMessage For="() => Request.Password" />
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-floating">
                             <input id="confirmarpassword" class="form-control" 
                             placeholder="Confirmar Password" type="@PasswordInputType" 

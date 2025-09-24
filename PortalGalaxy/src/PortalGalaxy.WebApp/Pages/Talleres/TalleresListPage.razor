@@ -2,59 +2,69 @@
 @inject ITallerProxy Proxy
 @inject IToastService ToastService
 
-<ListaGenerica TItem="TallerDtoResponse" Titulo="Talleres" Lista="Lista">
-    <Filtros>
-        <div class="row">
-            <div class="col">
-                <div class="mb-2">
-                    <label for="nombre" class="form-label">Nombre:</label>
-                    <input type="text" id="nombre" class="form-control" placeholder="Nombre del taller..." @bind-value="Nombre" />
-                </div>
-            </div>
-            <div class="col-3">
-                <label for="categoria" class="form-label">Categoría</label>
-                <InputSelect id="categoria" class="form-select" @bind-Value="CategoriaId">
-                    <option value="">-- Seleccione --</option>
-                    @foreach (var categoria in Categorias)
-                    {
-                        <option value="@categoria.Id">@categoria.Nombre</option>
-                    }
-                </InputSelect>
-            </div>
-            <div class="col-3">
-                <label for="situacion" class="form-label">Situación</label>
-                <InputSelect id="situacion" class="form-select" @bind-Value="Situacion">
-                    <option value="">-- Seleccione --</option>
-                    @foreach (var item in Situaciones)
-                    {
-                        <option value="@item.Codigo">@item.Descripcion</option>
-                    }
-                </InputSelect>
-            </div>
+<div class="row mb-3 mt-3">
+    <div class="col">
+        <div class="mb-2">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input type="text" id="nombre" class="form-control" placeholder="Nombre del taller..."
+                @bind-value="Nombre" />
         </div>
-        <div class="row">
-            <div class="col-3">
-                <button type="button" class="btn btn-primary" @onclick="OnSearch"><i class="bi bi-search me-1"></i>Buscar</button>
-            </div>
-            <div class="col-3">
-                <button type="button" class="btn btn-outline-primary" @onclick="OnLimpiar"><i class="bi bi-eraser-fill me-1"></i>Limpiar</button>
-            </div>
-        </div>
-    </Filtros>
-    <Cabeceras>
-        <th class="table-primary">Nombre</th>
-        <th class="table-primary">Categoría</th>
-        <th class="table-primary">Instructor</th>
-        <th class="table-primary">Fecha </th>
-        <th class="table-primary">Situación</th>
-    </Cabeceras>
-    <Detalles>
-        <td>@context.Taller</td>
-        <td>@context.Categoria</td>
-        <td>@context.Instructor</td>
-        <td>@context.Fecha</td>
-        <td>@context.Situacion</td>
-    </Detalles>
-</ListaGenerica>
+    </div>
+    <div class="col-3">
+        <label for="categoria" class="form-label">Categoría</label>
+        <InputSelect id="categoria" class="form-select" @bind-Value="CategoriaId">
+            <option value="">-- Seleccione --</option>
+            @foreach (var categoria in Categorias)
+            {
+                <option value="@categoria.Id">@categoria.Nombre</option>
+            }
+        </InputSelect>
+    </div>
+    <div class="col-3">
+        <label for="situacion" class="form-label">Situación</label>
+        <InputSelect id="situacion" class="form-select" @bind-Value="Situacion">
+            <option value="">-- Seleccione --</option>
+            @foreach (var item in Situaciones)
+            {
+                <option value="@item.Codigo">@item.Descripcion</option>
+            }
+        </InputSelect>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-3">
+        <button type="button" class="btn btn-primary" @onclick="OnRefresh"><i
+                class="bi bi-search me-1"></i>Buscar</button>
+    </div>
+    <div class="col-3">
+        <button type="button" class="btn btn-outline-primary" @onclick="OnLimpiar"><i
+                class="bi bi-eraser-fill me-1"></i>Limpiar</button>
+    </div>
+</div>
+
+<Grid @ref="Grilla" TItem="TallerDtoResponse" Class="table table-hover table-bordered table-striped" AllowPaging="true"
+    AllowSorting="true" Responsive="true" DataProvider="OnReadData" HeaderRowCssClass="table-primary">
+    <GridColumn TItem="TallerDtoResponse" PropertyName="@nameof(TallerDtoResponse.Taller)" HeaderText="Nombre"
+        Sortable="true">
+        @context.Taller
+    </GridColumn>
+    <GridColumn TItem="TallerDtoResponse" PropertyName="@nameof(TallerDtoResponse.Categoria)" HeaderText="Categoría"
+        Sortable="true">
+        @context.Categoria
+    </GridColumn>
+    <GridColumn TItem="TallerDtoResponse" PropertyName="@nameof(TallerDtoResponse.Instructor)" HeaderText="Instructor"
+        Sortable="true">
+        @context.Instructor
+    </GridColumn>
+    <GridColumn TItem="TallerDtoResponse" PropertyName="@nameof(TallerDtoResponse.Fecha)" HeaderText="Fecha"
+        Sortable="true">
+        @context.Fecha
+    </GridColumn>
+    <GridColumn TItem="TallerDtoResponse" PropertyName="@nameof(TallerDtoResponse.Situacion)" HeaderText="Situación"
+        Sortable="true">
+        @context.Situacion
+    </GridColumn>
+</Grid>
+
 
 <LoadingComponent IsLoading="IsLoading" />

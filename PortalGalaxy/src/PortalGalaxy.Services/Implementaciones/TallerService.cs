@@ -32,6 +32,7 @@ public class TallerService : ITallerService
                 request.Situacion, request.PageNumber, request.PageSize);
             response.Data = _mapper.Map<ICollection<TallerDtoResponse>>(lista);
             response.TotalPages = Helper.GetTotalPages(total, request.PageSize); // Calcular el total de páginas
+            response.TotalCount = total;
             response.Success = true;
         }
         catch (Exception ex)
