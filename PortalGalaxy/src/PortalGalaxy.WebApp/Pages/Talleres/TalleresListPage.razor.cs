@@ -1,4 +1,5 @@
 ﻿using BlazorBootstrap;
+using Microsoft.JSInterop;
 using PortalGalaxy.Common.Response;
 using PortalGalaxy.WebApp.Proxy.Interfaces;
 
@@ -84,5 +85,39 @@ public partial class TalleresListPage
             Data = Lista ?? new List<TallerDtoResponse>(),
             TotalCount = TotalCount
         });
+    }
+
+    private async Task OnExportarPdf()
+    {
+        try
+        {
+            IsLoading = true;
+            var request = new Common.Request.BusquedaTallerRequest
+            {
+                Nombre = Nombre,
+                Categoria = CategoriaId,
+                Situacion = Situacion,
+                PageNumber = CurrentPage,
+                PageSize = PageSize
+            };
+            var stream = await Proxy.ExportarPdf(request);
+
+            await using (var memory = new MemoryStream())
+            {
+                await stream.CopyToAsync(memory);
+                var byteArray = memory.ToArray();
+                
+                await JSRuntime.InvokeVoidAsync("descargarArchivo", "talleres.pdf", byteArray, "application/pdf");
+            }
+            
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 }

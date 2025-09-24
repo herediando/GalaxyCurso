@@ -9,6 +9,7 @@ using PortalGalaxy.Repositories.Interfaces;
 using PortalGalaxy.Services.Implementaciones;
 using PortalGalaxy.Services.Interfaces;
 using PortalGalaxy.Services.Profiles;
+using QuestPDF.Infrastructure;
 using Scrutor;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,8 @@ builder.Services.Scan(s => s
     .AsMatchingInterface()
     .WithScopedLifetime()
 );
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 // Configuramos los AutoMapper
 builder.Services.AddAutoMapper(c =>

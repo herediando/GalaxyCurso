@@ -1,4 +1,6 @@
-﻿using PortalGalaxy.Common.Response;
+﻿using System.Net.Http.Json;
+using PortalGalaxy.Common.Request;
+using PortalGalaxy.Common.Response;
 using PortalGalaxy.WebApp.Proxy.Interfaces;
 
 namespace PortalGalaxy.WebApp.Proxy.Services;
@@ -8,6 +10,14 @@ public class TallerProxy : RestBase, ITallerProxy
     public TallerProxy(HttpClient httpClient) 
         : base("api/talleres", httpClient)
     {
+    }
+
+    public async Task<Stream> ExportarPdf(BusquedaTallerRequest request)
+    {
+        var response = await HttpClient.PostAsJsonAsync($"{BaseUrl}/pdf", request);
+        response.EnsureSuccessStatusCode();
+        var result = await response.Content.ReadAsStreamAsync();
+        return result;
     }
 
     public async Task<PaginationResponse<TallerDtoResponse>> ListAsync(string? nombre, int? categoriaId, int? situacion, 
