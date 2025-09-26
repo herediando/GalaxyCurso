@@ -1,8 +1,10 @@
 ﻿@page "/taller/list"
 @inject ITallerProxy Proxy
 @inject IToastService ToastService
-@inject IJSRuntime JSRuntime
+@inject IJSRuntime JsRuntime
 @inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@inject SweetAlertService Swal
 
 <div class="row mb-3 mt-3">
     <div class="col">
@@ -40,7 +42,10 @@
     </div>
     <div class="col-3">
         <button type="button" class="btn btn-outline-primary" @onclick="OnLimpiar"><i
-                class="bi bi-eraser-fill me-1"></i>Limpiar</button>
+                                                                                       class="bi bi-eraser-fill me-1"></i>Limpiar</button>
+    </div>
+    <div class="col">
+        <button type="button" class="btn btn-primary" @onclick="OnNuevo"><i class="bi bi-plus-circle me-1"></i>Nuevo</button>
     </div>
 </div>
 
@@ -64,8 +69,16 @@
         @context.Fecha
     </GridColumn>
     <GridColumn TItem="TallerDtoResponse" PropertyName="@nameof(TallerDtoResponse.Situacion)" HeaderText="Situación"
-        Sortable="true">
+                Sortable="true">
         @context.Situacion
+    </GridColumn>
+    <GridColumn TItem="TallerDtoResponse" HeaderText="Acciones">
+        <button type="button" class="btn" @onclick="() => OnEditar(context.Id)">
+            <i class="bi bi-pencil-fill"></i>
+        </button>
+        <button type="button" class="btn" @onclick="() => OnEliminar(context.Id)">
+            <i class="bi bi-trash-fill"></i>
+        </button>
     </GridColumn>
 </Grid>
 

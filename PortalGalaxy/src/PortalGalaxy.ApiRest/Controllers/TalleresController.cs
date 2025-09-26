@@ -41,5 +41,33 @@ namespace PortalGalaxy.ApiRest.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] TallerDtoRequest request)
+        {
+            var response = await _service.AddAsync(request);
+            return Ok(response);
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var response = await _service.FindByIdAsync(id);
+            return Ok(response);
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Put(int id, [FromBody] TallerDtoRequest request)
+        {
+            var response = await _service.UpdateAsync(id, request);
+            return Ok(response);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var response = await _service.DeleteAsync(id);
+            return Ok(response);
+        }
     }
 }

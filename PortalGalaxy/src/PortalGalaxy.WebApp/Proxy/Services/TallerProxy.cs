@@ -5,7 +5,7 @@ using PortalGalaxy.WebApp.Proxy.Interfaces;
 
 namespace PortalGalaxy.WebApp.Proxy.Services;
 
-public class TallerProxy : RestBase, ITallerProxy
+public class TallerProxy : CrudRestHelperBase<TallerDtoRequest, TallerDtoResponse>, ITallerProxy
 {
     public TallerProxy(HttpClient httpClient) 
         : base("api/talleres", httpClient)

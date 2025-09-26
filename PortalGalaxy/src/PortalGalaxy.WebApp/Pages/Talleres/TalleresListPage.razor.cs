@@ -1,4 +1,5 @@
 ﻿using BlazorBootstrap;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.JSInterop;
 using PortalGalaxy.Common.Response;
 using PortalGalaxy.WebApp.Proxy.Interfaces;
@@ -56,21 +57,18 @@ public partial class TalleresListPage
     {
         try
         {
-            IsLoading = true;
             var response = await Proxy.ListAsync(Nombre, CategoriaId, Situacion, CurrentPage, PageSize);
             if (response.Success)
             {
                 Lista = response.Data;
                 TotalCount = response.TotalCount;
             }
+
+            await OnRefresh();
         }
         catch (Exception ex)
         {
             ToastService.ShowError(ex.Message);
-        }
-        finally
-        {
-            IsLoading = false;
         }
     }
 
@@ -105,14 +103,11 @@ public partial class TalleresListPage
             };
             var stream = await Proxy.ExportarPdf(request);
 
-            await using (var memory = new MemoryStream())
-            {
-                await stream.CopyToAsync(memory);
-                var byteArray = memory.ToArray();
+            await using var memory = new MemoryStream();
+            await stream.CopyToAsync(memory);
+            var byteArray = memory.ToArray();
 
-                await JSRuntime.InvokeVoidAsync("descargarArchivo", "talleres.pdf", byteArray, "application/pdf");
-            }
-
+            await JsRuntime.InvokeVoidAsync("descargarArchivo", "talleres.pdf", byteArray, "application/pdf");
         }
         catch (Exception ex)
         {
@@ -136,7 +131,7 @@ public partial class TalleresListPage
             var excel = new PlantillaXls();
             var bytes = excel.GenerarPlantilla(plantilla, Lista);
 
-            await JSRuntime.InvokeVoidAsync("descargarArchivo", "talleres.xlsx", bytes, "application/octect-stream");
+            await JsRuntime.InvokeVoidAsync("descargarArchivo", "talleres.xlsx", bytes, "application/octect-stream");
         }
         catch (Exception ex)
         {
@@ -146,6 +141,33 @@ public partial class TalleresListPage
         finally
         {
             IsLoading = false;
+        }
+    }
+
+    private void OnNuevo()
+    {
+        NavigationManager.NavigateTo("taller/nuevo");
+    }
+
+    private void OnEditar(int id)
+    {
+        NavigationManager.NavigateTo($"/taller/editar/{id}");
+    }
+
+    private async Task OnEliminar(int id)
+    {
+        var confirm = await Swal.FireAsync(new SweetAlertOptions("¿Desea eliminar?")
+        {
+            ShowCancelButton = true,
+            CancelButtonText = "No",
+            ConfirmButtonText = "Sí, eliminar",
+            Icon = SweetAlertIcon.Warning,
+            Text = "Esta acción no se puede deshacer"
+        });
+
+        if (confirm.IsConfirmed)
+        {
+            await Proxy.DeleteAsync(id);
         }
     }
 }
