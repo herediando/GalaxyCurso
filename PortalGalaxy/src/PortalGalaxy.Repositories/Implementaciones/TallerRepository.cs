@@ -16,7 +16,8 @@ public class TallerRepository : RepositoryBase<Taller>, ITallerRepository
     {
         var tupla = await ListAsync(predicate: p => p.Nombre.Contains(nombre ?? string.Empty) &&
                                                      (!categoria.HasValue || p.CategoriaId == categoria.Value) &&
-                                                     (!situacion.HasValue || p.Situacion == (SituacionTaller)situacion.Value),
+                                                     (!situacion.HasValue || p.Situacion == (SituacionTaller)situacion.Value)
+            && p.Estado,
                                      selector: s => new TallerInfo
                                      {
                                          Id = s.Id,

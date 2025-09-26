@@ -14,9 +14,17 @@ public class JsonProxy : RestBase, IJsonProxy
 
     public async Task<ICollection<DepartamentoModel>> ListDepartamentos()
     {
-        var departamentos = await HttpClient.GetFromJsonAsync<List<DepartamentoModel>>("data/departamentos.json") ??
-            new List<DepartamentoModel>();
+        List<DepartamentoModel> departamentos = new();
+        try
+        {
+            departamentos = await HttpClient.GetFromJsonAsync<List<DepartamentoModel>>("data/departamentos.json") ??
+                                                    new List<DepartamentoModel>();
 
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
         return departamentos;
     }
 
@@ -30,8 +38,17 @@ public class JsonProxy : RestBase, IJsonProxy
 
     public async Task<ICollection<SituacionModel>> ListSituaciones()
     {
-        var situaciones = await HttpClient.GetFromJsonAsync<List<SituacionModel>>("data/situaciones.json") ??
-            new List<SituacionModel>();
+        List<SituacionModel> situaciones = new();
+        try
+        {
+            situaciones = await HttpClient.GetFromJsonAsync<List<SituacionModel>>("data/situaciones.json") ??
+                                               new List<SituacionModel>();
+            
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
         return situaciones;
     }
 

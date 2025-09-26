@@ -14,11 +14,23 @@ using Scrutor;
 
 var builder = WebApplication.CreateBuilder(args);
 
+string corsConfiguration = "PortalGalaxyCORS";
+
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddCors(policy =>
+{
+    policy.AddPolicy(corsConfiguration, p =>
+    {
+        p.AllowAnyOrigin();
+        p.AllowAnyHeader();
+        p.AllowAnyMethod();
+    });
+});
 
 // Registramos las dependencias de forma automatica con Scrutor
 builder.Services.Scan(s => s
@@ -107,6 +119,8 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseCors(corsConfiguration);
 
 app.UseAuthentication();
 app.UseAuthorization();

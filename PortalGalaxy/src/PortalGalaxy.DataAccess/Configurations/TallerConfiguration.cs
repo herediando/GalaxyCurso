@@ -17,5 +17,7 @@ public class TallerConfiguration : IEntityTypeConfiguration<Taller>
         builder.Property(p => p.TemarioUrl)
             .IsUnicode(false)
             .HasMaxLength(500);
+
+        builder.HasQueryFilter(p => p.Estado);
     }
 }

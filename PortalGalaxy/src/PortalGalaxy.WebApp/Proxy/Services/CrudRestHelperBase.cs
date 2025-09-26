@@ -44,7 +44,7 @@ public class CrudRestHelperBase<TRequest, TResponse> : RestBase, ICrudRestHelper
 
     public async Task UpdateAsync(int id, TRequest request)
     {
-        var response = await SendAsync<TRequest, BaseResponse>(request, HttpMethod.Put, $"{BaseUrl}/{id}");
+        var response = await SendAsync<TRequest, BaseResponse>(request, HttpMethod.Put, $"{id}");
         if (response is { Success: true })
             return;
         throw new InvalidOperationException(response.ErrorMessage);
