@@ -11,7 +11,8 @@ public class TallerProfile : Profile
     public TallerProfile()
     {
         CreateMap<TallerInfo, TallerDtoResponse>()
-        .ForMember(dest => dest.Fecha, opt => opt.MapFrom(src => src.Fecha.ToString("dd/MM/yyyy")));
+            .ForMember(dest => dest.Taller, opt => opt.MapFrom(src => src.Nombre))
+            .ForMember(dest => dest.Fecha, opt => opt.MapFrom(src => src.Fecha.ToString("dd/MM/yyyy")));
 
         CreateMap<TallerDtoRequest, Taller>()
             .ReverseMap();

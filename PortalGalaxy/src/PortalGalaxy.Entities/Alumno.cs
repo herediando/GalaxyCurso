@@ -12,4 +12,6 @@ public class Alumno : EntityBase
     public string Provincia { get; set; } = null!;
     public string Distrito { get; set; } = null!;
     public DateTime FechaInscripcion { get; set; }
+    
+    public virtual ICollection<Inscripcion> Inscripcions { get; set; } = new List<Inscripcion>();
 }

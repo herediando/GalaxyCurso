@@ -264,7 +264,7 @@ public class TallerService : ITallerService
 
             response.Data = _mapper.Map<ICollection<TallerDtoResponse>>(tupla.Collection);
             response.TotalPages = Helper.GetTotalPages(tupla.Total, request.PageSize);
-
+            response.TotalCount = tupla.Total;
             response.Success = true;
         }
         catch (Exception ex)
