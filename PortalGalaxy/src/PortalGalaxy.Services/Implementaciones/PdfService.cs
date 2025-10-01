@@ -2,6 +2,7 @@
 using PortalGalaxy.Common.Request;
 using PortalGalaxy.Common.Response;
 using PortalGalaxy.Services.Interfaces;
+using PortalGalaxy.Services.Utils;
 using QuestPDF.Fluent;
 
 namespace PortalGalaxy.Services.Implementaciones;
@@ -20,10 +21,11 @@ public class PdfService : IPdfService
     public async Task<BaseResponse<Document>> Generar(BusquedaTallerRequest request)
     {
         var response = new BaseResponse<Document>();
+
         try
         {
             var data = await _tallerService.ListAsync(request);
-            if (data is { Success: true, TotalCount: > 0, Data: not null })
+            if (data is { Success: true, TotalPages: > 0, Data: not null })
             {
                 QuestPDF.Settings.CheckIfAllTextGlyphsAreAvailable = false;
 
@@ -44,10 +46,10 @@ public class PdfService : IPdfService
                             {
                                 row.RelativeItem().AlignCenter().Text("ID");
                                 row.RelativeItem().AlignCenter().Text("Nombre");
-                                row.RelativeItem().AlignCenter().Text("Categoría");
+                                row.RelativeItem().AlignCenter().Text("Categoria");
                                 row.RelativeItem().AlignCenter().Text("Instructor");
                                 row.RelativeItem().AlignCenter().Text("Fecha");
-                                row.RelativeItem().AlignCenter().Text("Situación");
+                                row.RelativeItem().AlignCenter().Text("Situacion");
                             });
                             col.Item().Border(0.5f).Row(row =>
                             {
@@ -57,12 +59,12 @@ public class PdfService : IPdfService
                                     {
                                         c.Item().Row(r =>
                                         {
-                                            r.RelativeItem().Text(taller.Id.ToString());
-                                            r.RelativeItem().Text(taller.Taller);
-                                            r.RelativeItem().Text(taller.Categoria);
-                                            r.RelativeItem().Text(taller.Instructor);
-                                            r.RelativeItem().Text(taller.Fecha);
-                                            r.RelativeItem().Text(taller.Situacion);
+                                            r.RelativeItem().Text(taller.Id.ToString()).TextData();
+                                            r.RelativeItem().Text(taller.Taller).TextData();
+                                            r.RelativeItem().Text(taller.Categoria).TextData();
+                                            r.RelativeItem().Text(taller.Instructor).TextData();
+                                            r.RelativeItem().Text(taller.Fecha).TextData();
+                                            r.RelativeItem().Text(taller.Situacion).TextData();
                                         });
                                     }
                                 });
@@ -80,6 +82,7 @@ public class PdfService : IPdfService
             response.ErrorMessage = "Error al generar el PDF";
             _logger.LogError(ex, "{ErrorMessage} {Message}", response.ErrorMessage, ex.Message);
         }
+
         return response;
     }
 }

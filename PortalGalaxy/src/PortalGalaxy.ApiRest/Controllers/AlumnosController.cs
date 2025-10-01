@@ -6,19 +6,27 @@ namespace PortalGalaxy.ApiRest.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InstructoresController : ControllerBase
+    public class AlumnosController : ControllerBase
     {
-        private readonly IInstructorService _service;
+        private readonly IAlumnoService _service;
 
-        public InstructoresController(IInstructorService service)
+        public AlumnosController(IAlumnoService service)
         {
             _service = service;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(string? filtro, string? nroDocumento, int? categoriaId)
+        public async Task<IActionResult> Get(string? nombre, string? nroDocumento)
         {
-            var response = await _service.ListAsync(filtro, nroDocumento, categoriaId);
+            var response = await _service.ListAsync(nombre, nroDocumento);
+
+            return Ok(response);
+        }
+
+        [HttpGet("Simple")]
+        public async Task<IActionResult> GetSimple(string? nombre, string? nroDocumento)
+        {
+            var response = await _service.ListSimpleAsync(nombre, nroDocumento);
 
             return Ok(response);
         }
@@ -32,7 +40,7 @@ namespace PortalGalaxy.ApiRest.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(InstructorDtoRequest request)
+        public async Task<IActionResult> Post(AlumnoDtoRequest request)
         {
             var response = await _service.AddAsync(request);
 
@@ -40,7 +48,7 @@ namespace PortalGalaxy.ApiRest.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Put(int id, InstructorDtoRequest request)
+        public async Task<IActionResult> Put(int id, AlumnoDtoRequest request)
         {
             var response = await _service.UpdateAsync(id, request);
 
@@ -54,5 +62,7 @@ namespace PortalGalaxy.ApiRest.Controllers
 
             return response.Success ? Ok(response) : NotFound(response);
         }
+
+        
     }
 }

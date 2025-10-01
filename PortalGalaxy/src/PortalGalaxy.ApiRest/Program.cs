@@ -111,6 +111,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(options => options.SwaggerEndpoint("/openapi/v1.json", "PortalGalaxy.ApiRest v1"));
 }
 
 app.UseHttpsRedirection();

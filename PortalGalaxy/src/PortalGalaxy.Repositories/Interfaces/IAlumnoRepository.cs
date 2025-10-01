@@ -5,5 +5,5 @@ namespace PortalGalaxy.Repositories.Interfaces;
 
 public interface IAlumnoRepository : IRepositoryBase<Alumno>
 {
-
+    Task<Alumno?> FindByEmailAsync(string email);
 }

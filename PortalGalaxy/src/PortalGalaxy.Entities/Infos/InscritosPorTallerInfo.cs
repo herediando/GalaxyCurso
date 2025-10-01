@@ -1,11 +1,12 @@
 ﻿namespace PortalGalaxy.Entities.Infos;
 
-public class TallerInfo
+public class InscritosPorTallerInfo
 {
     public int Id { get; set; }
-    public string Nombre { get; set; } = null!;
+    public string Taller { get; set; } = null!;
     public string Categoria { get; set; } = null!;
     public string Instructor { get; set; } = null!;
-    public DateOnly Fecha { get; set; } = default!;
+    public string Fecha { get; set; } = null!;
     public string Situacion { get; set; } = null!;
+    public int Cantidad { get; set; }
 }

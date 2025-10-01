@@ -1,6 +1,4 @@
-using System;
-
-namespace PortalGalaxy.Entities.Infos;
+﻿namespace PortalGalaxy.Entities.Infos;
 
 public class InstructorInfo
 {

@@ -1,6 +1,7 @@
-﻿namespace PortalGalaxy.Services.Interfaces;
-
-public interface IFileUploader
+﻿namespace PortalGalaxy.Services.Interfaces
 {
-    Task<string> UploadFileAsync(string? base64String, string? fileName);
+    public interface IFileUploader
+    {
+        Task<string> UploadFileAsync(string? base64Imagen, string? archivo);
+    }
 }

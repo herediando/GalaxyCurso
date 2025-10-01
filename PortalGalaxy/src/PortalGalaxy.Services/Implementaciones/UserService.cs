@@ -21,7 +21,6 @@ namespace PortalGalaxy.Services.Implementaciones;
 public class UserService : IUserService
 {
     private readonly AppSettings _configuration;
-    private readonly IOptions<AppSettings> configuration;
     private readonly UserManager<GalaxyIdentityUser> _userManager;
     private readonly ILogger<UserService> _logger;
     private readonly IAlumnoRepository _alumnoRepository;

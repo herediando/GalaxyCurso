@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PortalGalaxy.Common.Request;
 using PortalGalaxy.Services.Interfaces;
 
 namespace PortalGalaxy.ApiRest.Controllers
@@ -17,8 +18,31 @@ namespace PortalGalaxy.ApiRest.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var response = await _service.ListAsync();
-            return Ok(response);
+            return Ok(await _service.ListAsync());
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            return Ok(await _service.FindByIdAsync(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] CategoriaDtoRequest request)
+        {
+            return Ok(await _service.CreateAsync(request));
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Put(int id, CategoriaDtoRequest request)
+        {
+            return Ok(await _service.UpdateAsync(id, request));
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            return Ok(await _service.DeleteAsync(id));
         }
     }
 }

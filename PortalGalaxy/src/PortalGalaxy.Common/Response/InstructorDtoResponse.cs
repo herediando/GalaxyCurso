@@ -1,4 +1,4 @@
-namespace PortalGalaxy.Common.Response;
+﻿namespace PortalGalaxy.Common.Response;
 
 public class InstructorDtoResponse
 {
@@ -7,4 +7,6 @@ public class InstructorDtoResponse
     public string NroDocumento { get; set; } = null!;
     public string Categoria { get; set; } = null!;
     public int CategoriaId { get; set; }
+
+    public string ForName => $"switch_{Id}";
 }

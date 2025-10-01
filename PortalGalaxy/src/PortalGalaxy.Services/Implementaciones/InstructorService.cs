@@ -1,11 +1,10 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
+using PortalGalaxy.Common.Request;
 using PortalGalaxy.Common.Response;
 using PortalGalaxy.Entities;
 using PortalGalaxy.Repositories.Interfaces;
 using PortalGalaxy.Services.Interfaces;
-using System;
-using PortalGalaxy.Common.Request;
 
 namespace PortalGalaxy.Services.Implementaciones;
 
@@ -14,6 +13,7 @@ public class InstructorService : IInstructorService
     private readonly IInstructorRepository _repository;
     private readonly ILogger<InstructorService> _logger;
     private readonly IMapper _mapper;
+
     public InstructorService(IInstructorRepository repository, ILogger<InstructorService> logger, IMapper mapper)
     {
         _repository = repository;
@@ -21,27 +21,23 @@ public class InstructorService : IInstructorService
         _mapper = mapper;
     }
 
-    public async Task<BaseResponse<ICollection<InstructorDtoResponse>>> ListAsync(string? filtro, string? nroDocumento,
-    int? categoriaId)
+    public async Task<BaseResponse<ICollection<InstructorDtoResponse>>> ListAsync(string? filtro, string? nroDocumento, int? categoriaId)
     {
         var response = new BaseResponse<ICollection<InstructorDtoResponse>>();
-        
         try
         {
-            var lista = await _repository.ListAsync(filtro, nroDocumento, categoriaId);
-            response.Data = _mapper.Map<ICollection<InstructorDtoResponse>>(lista);
+            var collection = await _repository.ListAsync(filtro, nroDocumento, categoriaId);
+
+            response.Data = _mapper.Map<ICollection<InstructorDtoResponse>>(collection);
             response.Success = true;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error in InstructorService.ListAsync");
-            response.Success = false;
-            response.ErrorMessage = "Error al listar los instructores.";
+            response.ErrorMessage = "Error al listar los instructores";
+            _logger.LogCritical(ex, "{ErrorMessage} {Message}", response.ErrorMessage, ex.Message);
         }
-
         return response;
     }
-
 
     public async Task<BaseResponse<InstructorDtoRequest>> FindByIdAsync(int id)
     {
