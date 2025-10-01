@@ -20,6 +20,18 @@ public class TallerProxy : CrudRestHelperBase<TallerDtoRequest, TallerDtoRespons
         return result;
     }
 
+    public async Task<BaseResponse<ICollection<TallerSimpleDtoResponse>>> ListarAsync()
+    {
+        var response = await SendAsync<BaseResponse<ICollection<TallerSimpleDtoResponse>>>("simple");
+
+        if (response is { Success: true, Data: not null })
+        {
+            return response;
+        }
+
+        throw new InvalidOperationException(response.ErrorMessage);
+    }
+
     public async Task<PaginationResponse<TallerDtoResponse>> ListAsync(string? nombre, int? categoriaId, int? situacion, 
         int pageNumber = 1, int pageSize = 15)
     {

@@ -116,83 +116,9 @@
                 <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body p-4">
-                Aca ira el componente de edicion y creacion de instructores
+                <ModalInstructor Categorias="Categorias" SeleccionInstructor="InstructorSeleccionado" />
             </div>
         </div>
     </div>
 </div>
 
-@code {
-
-    [Parameter]
-    [EditorRequired]
-    public string Titulo { get; set; } = string.Empty;
-
-    [Parameter] public TallerDtoRequest Request { get; set; } = new();
-
-    [Parameter]
-    [EditorRequired]
-    public ICollection<CategoriaDtoResponse> Categorias { get; set; } = new List<CategoriaDtoResponse>();
-
-    [Parameter]
-    [EditorRequired]
-    public ICollection<SituacionModel> Situaciones { get; set; } = new List<SituacionModel>();
-
-
-    [Parameter]
-    [EditorRequired]
-    public EventCallback<TallerDtoRequest> OnGuardar { get; set; }
-
-    [Parameter]
-    public string NombreInstructor { get; set; } = null!;
-
-    private const long MaxFileSize = 1024 * 1024 * 15; // 15 MB
-
-    private void OnGrabar()
-    {
-        // TODO: Evaluacion previa
-        OnGuardar.InvokeAsync(Request);
-    }
-
-
-    private async Task OnPortadaChanged(InputFileChangeEventArgs args)
-    {
-        try
-        {
-            var imagen = args.File;
-            var buffer = new byte[imagen.Size];
-            _ = await imagen.OpenReadStream(MaxFileSize).ReadAsync(buffer);
-
-            Request.PortadaBase64 = Convert.ToBase64String(buffer);
-            Request.PortadaFileName = imagen.Name;
-            Request.PortadaUrl = null!;
-
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            await Swal.FireAsync("Error de Archivo", ex.Message);
-        }
-    }
-    
-    private async Task OnTemarioChanged(InputFileChangeEventArgs args)
-    {
-        try
-        {
-            var archivo = args.File;
-            var buffer = new byte[archivo.Size];
-            _ = await archivo.OpenReadStream(MaxFileSize).ReadAsync(buffer);
-
-            Request.TemarioBase64 = Convert.ToBase64String(buffer);
-            Request.TemarioFileName= archivo.Name;
-            Request.TemarioUrl = null!;
-
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            await Swal.FireAsync("Error de Archivo", ex.Message);
-        }
-    }
-
-}

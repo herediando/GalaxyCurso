@@ -56,6 +56,14 @@ namespace PortalGalaxy.ApiRest.Controllers
             return Ok(response);
         }
 
+        [HttpGet("simple")]
+        public async Task<IActionResult> Get()
+        {
+            var response = await _service.ListSimpleAsync();
+
+            return response.Success ? Ok(response) : BadRequest(response);
+        }
+
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Put(int id, [FromBody] TallerDtoRequest request)
         {

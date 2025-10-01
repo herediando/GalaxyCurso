@@ -14,7 +14,7 @@ public class InscripcionRepository : RepositoryBase<Inscripcion>, IInscripcionRe
     public async Task<(ICollection<InscripcionInfo> Colecction, int Total)> ListAsync(string? inscrito, string? taller, int? situacion, DateTime? fechaInicio, DateTime? fechaFin, int pagina, int filas)
     {
         var tupla = await ListAsync(predicate: p => p.Alumno.NombreCompleto.Contains(inscrito ?? string.Empty)
-                                                    && (p.Taller.Nombre.Contains(taller ?? string.Empty))
+                                                    && p.Taller.Nombre.Contains(taller ?? string.Empty)
                                                     && (situacion == null ||
                                                         p.Situacion == (SituacionInscripcion)situacion)
                                                     && (fechaInicio == null || fechaInicio <= p.FechaCreacion && fechaFin >= p.FechaCreacion),

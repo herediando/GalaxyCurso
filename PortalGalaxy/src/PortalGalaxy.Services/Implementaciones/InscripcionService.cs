@@ -37,6 +37,7 @@ public class InscripcionService : IInscripcionService
 
             response.Data = _mapper.Map<ICollection<InscripcionDtoResponse>>(tupla.Colecction);
             response.TotalPages = Helper.GetTotalPages(tupla.Total, request.PageSize);
+            response.TotalCount = tupla.Total;
             response.Success = true;
         }
         catch (Exception ex)
