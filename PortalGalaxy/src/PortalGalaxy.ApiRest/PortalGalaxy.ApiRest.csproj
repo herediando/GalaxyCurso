@@ -16,7 +16,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.9" />
     <PackageReference Include="Scrutor" Version="6.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.8" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.9" PrivateAssets="all" />
     <PackageReference Include="AutoMapper" Version="15.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.5" />
   </ItemGroup>
@@ -24,9 +24,9 @@
   <ItemGroup>
     <ProjectReference Include="../PortalGalaxy.Services/PortalGalaxy.Services.csproj" />
     <ProjectReference Include="../PortalGalaxy.WebApp/PortalGalaxy.WebApp.csproj" />
-    <ProjectReference Include="..\PortalGalaxy.DataAccess\PortalGalaxy.DataAccess.csproj" />
-    <ProjectReference Include="..\PortalGalaxy.Entities\PortalGalaxy.Entities.csproj" />
-    <ProjectReference Include="..\PortalGalaxy.Repositories\PortalGalaxy.Repositories.csproj" />
+    <ProjectReference Include="../PortalGalaxy.DataAccess/PortalGalaxy.DataAccess.csproj" />
+    <ProjectReference Include="../PortalGalaxy.Entities/PortalGalaxy.Entities.csproj" />
+    <ProjectReference Include="../PortalGalaxy.Repositories/PortalGalaxy.Repositories.csproj" />
   </ItemGroup>
 
 </Project>
