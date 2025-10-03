@@ -1,4 +1,16 @@
-CREATE PROCEDURE uspListarInscripciones
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace PortalGalaxy.DataAccess.Migrations
+{
+    /// <inheritdoc />
+    public partial class StoredProcedureMigration : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.Sql(@"CREATE PROCEDURE uspListarInscripciones
 (
 	@InstructorId INT = NULL,
 	@Taller NVARCHAR(100) = NULL,
@@ -70,4 +82,13 @@ WHERE
 	AND (@FechaInicio IS NULL
 		OR (I.FechaCreacion BETWEEN @FechaInicio AND @FECHAFIN ))
 
-END
+END");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.Sql("drop procedure uspListarInscripciones");
+        }
+    }
+}

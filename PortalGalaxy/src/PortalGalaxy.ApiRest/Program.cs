@@ -150,6 +150,13 @@ app.MapFallbackToFile("index.html");
 
 using (var scope = app.Services.CreateScope())
 {
+    var dbContextGalaxy = scope.ServiceProvider.GetRequiredService<PortalGalaxyDbContext>();
+    var dbContextSecurity = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    // Con estas dos lineas, me aseguro que se crea las migraciones de cada DbContext
+    dbContextGalaxy.Database.Migrate();
+    dbContextSecurity.Database.Migrate();
+
     await UserDataSeeder.Seed(scope.ServiceProvider);
 }
 

@@ -79,8 +79,9 @@
         <GridColumn TItem="InscritosPorTallerDtoResponse" PropertyName="Situacion" HeaderText="Situacion">
             @context.Situacion
         </GridColumn>
-        <GridColumn TItem="InscritosPorTallerDtoResponse" PropertyName="Cantidad" HeaderText="Cantidad">
-            @context.Cantidad
+        <GridColumn TItem="InscritosPorTallerDtoResponse" PropertyName="Cantidad" HeaderText="Cantidad"
+                    TextAlignment="Alignment.Center">
+            <span class="cantidadview">@context.Cantidad</span>
         </GridColumn>
         
     </Grid>
