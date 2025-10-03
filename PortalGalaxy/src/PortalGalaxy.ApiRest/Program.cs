@@ -128,6 +128,25 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+var group = app.MapGroup("api/talleres/reportes");
+group.MapGet("tallerespormes/{anio:int}", async (int anio, ITallerService service) =>
+{
+    var response = await service.ReporteTalleresPorMes(anio);
+    if (response.Success)
+        return Results.Ok(response);
+
+    return Results.BadRequest(response);
+});
+group.MapGet("talleresporinstructor/{anio:int}", async (int anio, ITallerService service) =>
+{
+    var response = await service.ReporteTalleresPorInstructor(anio);
+    if (response.Success)
+        return Results.Ok(response);
+
+    return Results.BadRequest(response);
+});
+
+
 app.MapPost("api/seed/{tipo:int}", async (int tipo, ILogger<Program> logger) =>
 {
     try

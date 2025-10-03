@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using PortalGalaxy.Common.Request;
 using PortalGalaxy.Common.Response;
 using PortalGalaxy.WebApp.Proxy.Interfaces;
@@ -24,6 +25,29 @@ public class TallerProxy : CrudRestHelperBase<TallerDtoRequest, TallerDtoRespons
     {
         var response = await SendAsync<BaseResponse<ICollection<TallerSimpleDtoResponse>>>("simple");
 
+        if (response is { Success: true, Data: not null })
+        {
+            return response;
+        }
+
+        throw new InvalidOperationException(response.ErrorMessage);
+    }
+
+    public async Task<BaseResponse<ICollection<TalleresPorInstructorDto>>> ListarPorInstructorAsync(int anio)
+    {
+        var response = await SendAsync<BaseResponse<ICollection<TalleresPorInstructorDto>>>($"reportes/talleresporinstructor/{anio}");
+
+        if (response is { Success: true, Data: not null })
+        {
+            return response;
+        }
+
+        throw new InvalidOperationException(response.ErrorMessage);
+    }
+
+    public async Task<BaseResponse<ICollection<TalleresPorMesDto>>> ListarPorMesAsync(int anio)
+    {
+        var response = await SendAsync<BaseResponse<ICollection<TalleresPorMesDto>>>($"reportes/tallerespormes/{anio}");
         if (response is { Success: true, Data: not null })
         {
             return response;
