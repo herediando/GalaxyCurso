@@ -7,7 +7,7 @@ namespace PortalGalaxy.WebApp.Proxy.Services;
 
 public class TallerProxy : CrudRestHelperBase<TallerDtoRequest, TallerDtoResponse>, ITallerProxy
 {
-    public TallerProxy(HttpClient httpClient) 
+    public TallerProxy(HttpClient httpClient)
         : base("api/talleres", httpClient)
     {
     }
@@ -32,12 +32,24 @@ public class TallerProxy : CrudRestHelperBase<TallerDtoRequest, TallerDtoRespons
         throw new InvalidOperationException(response.ErrorMessage);
     }
 
-    public async Task<PaginationResponse<TallerDtoResponse>> ListAsync(string? nombre, int? categoriaId, int? situacion, 
+    public async Task<PaginationResponse<TallerDtoResponse>> ListAsync(string? nombre, int? categoriaId, int? situacion,
         int pageNumber = 1, int pageSize = 15)
     {
         var data = await SendAsync<PaginationResponse<TallerDtoResponse>>(
             $"?nombre={nombre}&categoria={categoriaId}&situacion={situacion}&pageNumber={pageNumber}&pageSize={pageSize}");
 
         return data;
+    }
+
+    public async Task<PaginationResponse<InscritosPorTallerDtoResponse>> ListAsync(BusquedaInscritosPorTallerRequest request)
+    {
+        var response = await SendAsync<PaginationResponse<InscritosPorTallerDtoResponse>>($"inscritos?instructorid={request.InstructorId}&taller={request.Taller}&situacion={request.Situacion}&fechaInicio={request.FechaInicio}&fechaFin={request.FechaFin}&pageNumber={request.PageNumber}&pageSize={request.PageSize}");
+
+        if (response is { Success: true, Data: not null })
+        {
+            return response;
+        }
+
+        throw new InvalidOperationException(response.ErrorMessage);
     }
 }

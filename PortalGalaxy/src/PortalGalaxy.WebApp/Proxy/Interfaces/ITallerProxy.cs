@@ -9,5 +9,7 @@ public interface ITallerProxy : ICrudRestHelper<TallerDtoRequest, TallerDtoRespo
 
     Task<BaseResponse<ICollection<TallerSimpleDtoResponse>>> ListarAsync();
 
+    Task<PaginationResponse<InscritosPorTallerDtoResponse>> ListAsync(BusquedaInscritosPorTallerRequest request);
+
     Task<Stream> ExportarPdf(BusquedaTallerRequest request);
 }

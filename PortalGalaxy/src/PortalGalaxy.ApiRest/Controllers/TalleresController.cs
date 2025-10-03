@@ -64,6 +64,13 @@ namespace PortalGalaxy.ApiRest.Controllers
             return response.Success ? Ok(response) : BadRequest(response);
         }
 
+        [HttpGet("inscritos")]
+        public async Task<IActionResult> GetInscritos([FromQuery] BusquedaInscritosPorTallerRequest request)
+        {
+            var response = await _service.ListAsync(request);
+            return response.Success ? Ok(response) : BadRequest(response);
+        }
+
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Put(int id, [FromBody] TallerDtoRequest request)
         {
