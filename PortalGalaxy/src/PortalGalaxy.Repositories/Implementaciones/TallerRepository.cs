@@ -80,7 +80,8 @@ public class TallerRepository : RepositoryBase<Taller>, ITallerRepository
         var tupla = await ListAsync(predicate: p => p.Nombre.Contains(nombre ?? string.Empty) 
                                                     && (instructorId == null || p.InstructorId == instructorId)
                                                     && (fechaInicio == null || fechaInicio <= p.FechaInicio)
-                                                    && (fechaFin == null || fechaFin >= p.FechaInicio),
+                                                    && (fechaFin == null || fechaFin >= p.FechaInicio)
+            && p.Estado,
                                     selector: p => new TallerHomeInfo
                                     {
                                         Id = p.Id,
