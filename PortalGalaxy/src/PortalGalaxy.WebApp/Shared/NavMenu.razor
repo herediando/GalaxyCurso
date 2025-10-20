@@ -1,49 +1,73 @@
-﻿<aside class="d-flex flex-column flex-shrink-0 p-1 bg-light border border-dark">
-    <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
-            <NavLink href="home" class="nav-link link-dark"><i class="bi bi-house me-1"></i>Inicio</NavLink>
-        </li>
+﻿<aside class="galaxy-sidebar d-flex flex-column flex-shrink-0 p-2 border-end">
+    <nav class="nav flex-column gap-1">
+        <NavLink href="home" class="btn btn-light text-start d-flex align-items-center gap-2"
+                 Match="NavLinkMatch.All">
+            <i class="bi bi-house"></i> <span>Inicio</span>
+        </NavLink>
         <AuthorizeView Roles="@Constantes.RolAdministrador">
             <Authorized>
-                <li class="nav-item">
-                    <NavLink href="categorias/list" class="nav-link link-dark"><i class="bi bi-archive me-1"></i>Categorías</NavLink>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle link-dark" href="#" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-tools me-1"></i>Talleres</a>
-                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1">
-                        <li>
-                            <NavLink href="taller/list" class="dropdown-item"><i class="bi bi-tools me-1"></i>Listado de Talleres</NavLink>
-                        </li>
-                        <li>
-                            <NavLink href="taller/inscritos/list" class="dropdown-item"><i class="bi bi-person me-1"></i>Inscritos por Taller</NavLink>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <NavLink href="inscripciones/list" class="nav-link link-dark"><i class="bi bi-people me-1"></i>Inscripciones</NavLink>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle link-dark" href="#" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-reception-4 me-1"></i>Reportes</a>
-                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                        <li>
-                            <NavLink href="reportes/tallerpormes" class="nav-link link-dark"><i class="bi bi-bar-chart-steps me-1"></i>Talleres por mes</NavLink>
-                        </li>
-                        <li>
-                            <NavLink href="reportes/tallerporinstructor" class="nav-link link-dark"><i class="bi bi-graph-up-arrow me-1"></i>Talleres por instructor</NavLink>
-                        </li>
-                    </ul>
-
-                </li>
+                <NavLink href="categorias/list" class="btn btn-light text-start d-flex align-items-center gap-2">
+                    <i class="bi bi-archive"></i> <span>Categorías</span>
+                </NavLink>
+                <div class="accordion accordion-flush" id="accordionAdmin">
+                    <div class="accordion-item galaxy-acc-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed btn-ghost"
+                                    type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#accTalleres" aria-expanded="false"
+                                    aria-controls="accTalleres">
+                                <i class="bi bi-tools me-2"></i> Talleres
+                            </button>
+                        </h2>
+                        <div id="accTalleres" class="accordion-collapse collapse"
+                             data-bs-parent="#accordionAdmin">
+                            <div class="accordion-body p-2 d-grid gap-1">
+                                <NavLink href="taller/list"
+                                         class="btn btn-outline-secondary btn-sm text-start d-flex align-items-center gap-2">
+                                    <i class="bi bi-list-ul"></i> Listado de Talleres
+                                </NavLink>
+                                <NavLink href="taller/inscritos/list"
+                                         class="btn btn-outline-secondary btn-sm text-start d-flex align-items-center gap-2">
+                                    <i class="bi bi-person"></i> Inscritos por Taller
+                                </NavLink>
+                            </div>
+                        </div>
+                    </div>
+                    <NavLink href="inscripciones/list" class="btn btn-light text-start d-flex align-items-center gap-2">
+                        <i class="bi bi-people"></i> <span>Inscripciones</span>
+                    </NavLink>
+                    <div class="accordion-item galaxy-acc-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed btn-ghost"
+                                    type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#accReportes" aria-expanded="false"
+                                    aria-controls="accReportes">
+                                <i class="bi bi-reception-4 me-2"></i> Reportes
+                            </button>
+                        </h2>
+                        <div id="accReportes" class="accordion-collapse collapse"
+                             data-bs-parent="#accordionAdmin">
+                            <div class="accordion-body p-2 d-grid gap-1">
+                                <NavLink href="reportes/tallerpormes"
+                                         class="btn btn-outline-secondary btn-sm text-start d-flex align-items-center gap-2">
+                                    <i class="bi bi-bar-chart-steps"></i> Talleres por mes
+                                </NavLink>
+                                <NavLink href="reportes/tallerporinstructor"
+                                         class="btn btn-outline-secondary btn-sm text-start d-flex align-items-center gap-2">
+                                    <i class="bi bi-graph-up-arrow"></i> Talleres por instructor
+                                </NavLink>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </Authorized>
         </AuthorizeView>
         <AuthorizeView Roles="@Constantes.RolAlumno">
-            <li class="nav-item">
-                <NavLink href="catalogotalleres" class="nav-link link-dark"><i class="bi bi-tools me-1"></i>Talleres</NavLink>
-            </li>
+            <Authorized>
+                <NavLink href="catalogotalleres" class="btn btn-light text-start d-flex align-items-center gap-2">
+                    <i class="bi bi-tools"></i> <span>Talleres</span>
+                </NavLink>
+            </Authorized>
         </AuthorizeView>
-    </ul>
+    </nav>
 </aside>
-
-@code {
-
-}

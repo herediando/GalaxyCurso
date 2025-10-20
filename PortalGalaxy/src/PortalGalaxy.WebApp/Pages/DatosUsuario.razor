@@ -1,0 +1,54 @@
+﻿@page "/datos"
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+<CascadingAuthenticationState>
+    <div class="mt-2 mb-3">
+        <h2>Datos del Usuario</h2>
+    </div>
+
+    @if (isLoading)
+    {
+        <div>Cargando datos del usuario...</div>
+    }
+    else if (!isAuthenticated)
+    {
+        <div>No hay usuario autenticado.</div>
+    }
+    else
+    {
+        <div>
+            <p><strong>Nombre:</strong> @displayName</p>
+            <p><strong>Email:</strong> @email</p>
+        </div>
+    }
+</CascadingAuthenticationState>
+
+@code {
+    [CascadingParameter] private Task<AuthenticationState> AuthenticationStateTask { get; set; } = default!;
+
+    private bool isLoading = true;
+    private bool isAuthenticated;
+    private string? displayName;
+    private string? email;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateTask;
+        var user = authState?.User;
+
+        isAuthenticated = user?.Identity?.IsAuthenticated ?? false;
+
+        if (isAuthenticated && user != null)
+        {
+            displayName = user.FindFirst(ClaimTypes.Name)?.Value
+                          ?? user.Identity?.Name
+                          ?? user.FindFirst("name")?.Value;
+
+            email = user.FindFirst(ClaimTypes.Email)?.Value
+                    ?? user.FindFirst("email")?.Value;
+
+        }
+
+        isLoading = false;
+    }
+}

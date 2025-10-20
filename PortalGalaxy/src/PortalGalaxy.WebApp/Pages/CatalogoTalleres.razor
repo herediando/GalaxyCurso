@@ -7,7 +7,7 @@
 @inject IInstructorProxy InstructorProxy
 @inject NavigationManager NavigationManager
 
-<h3 class="text-uppercase">Listado de Talleres</h3>
+<h3 class="text-uppercase mt-4 mb-3"><b>Listado de Talleres</b></h3>
 
 <div class="row">
     <div class="col">
@@ -27,11 +27,11 @@
 </div>
 <div class="mt-4 row align-items-end">
     <div class="col">
-        <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+        <label for="fechaInicio" class="form-label">Fecha Inicio</label>
         <InputDate @bind-Value="BusquedaRequest.FechaInicio" class="form-control" id="fechaInicio" />
     </div>
     <div class="col">
-        <label for="fechaFin" class="form-label">Fecha de fin</label>
+        <label for="fechaFin" class="form-label">Fecha fin</label>
         <InputDate @bind-Value="BusquedaRequest.FechaFin" class="form-control" id="fechaFin" />
     </div>
     <div class="col offset-3">
@@ -92,19 +92,60 @@
     }
 
 </div>
-<div class="row justify-content-center">
-    <DataPager @ref="Paginador" Result="PagedResult" OnPageChanged="PaginaCambiada" OnPageSizeChanged="FilasPorPagina" />
+<div class="row justify-content-center mb-3">
+    <div class="col-auto d-flex align-items-center">
+        <nav aria-label="Paginación">
+            <ul class="pagination mb-0 flex-wrap">
+                <li class="page-item @(IsFirstPage ? "disabled" : "")">
+                    <button class="page-link" @onclick="PrevPage" aria-label="Anterior">Anterior</button>
+                </li>
+
+                @if (PagedResult?.TotalPages > 0)
+                {
+                    var visible = GetVisiblePages();
+                    if (visible.Count > 0)
+                    {
+                        foreach (var entry in visible)
+                        {
+                            if (entry == null)
+                            {
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            }
+                            else
+                            {
+                                var pageNum = entry.Value;
+                                <li class="page-item @(pageNum == PagedResult.CurrentPage ? "active" : "")">
+                                    <button class="page-link" @onclick="@(async () => await ChangePage(pageNum))">@pageNum</button>
+                                </li>
+                            }
+                        }
+                    }
+                }
+
+                <li class="page-item @(IsLastPage ? "disabled" : "")">
+                    <button class="page-link" @onclick="NextPage" aria-label="Siguiente">Siguiente</button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="col-auto d-flex align-items-center">
+        <small class="text-muted">Página @PagedResult?.CurrentPage de @PagedResult?.TotalPages</small>
+    </div>
 </div>
 <LoadingComponent IsLoading="IsLoading" />
 
 @code {
 
     public bool IsLoading { get; set; }
-    public DataPager Paginador { get; set; } = null!;
-    public PagedResult<TallerHomeDtoResponse> PagedResult { get; set; } = null!;
-    public BusquedaTallerHomeRequest BusquedaRequest { get; set; } = new BusquedaTallerHomeRequest();
+    public PagedResult<TallerHomeDtoResponse> PagedResult { get; set; } = new PagedResult<TallerHomeDtoResponse>();
+    public BusquedaTallerHomeRequest BusquedaRequest { get; set; } = new BusquedaTallerHomeRequest() { PageNumber = 1, PageSize = 10 };
     private ICollection<TallerHomeDtoResponse>? Talleres { get; set; }
     private ICollection<InstructorDtoResponse> Instructores { get; set; } = new List<InstructorDtoResponse>();
+
+    private int MaxPageButtons { get; } = 10;
+
+    private bool IsFirstPage => PagedResult?.CurrentPage <= 1;
+    private bool IsLastPage => PagedResult == null || PagedResult.CurrentPage >= PagedResult.TotalPages;
 
     protected override async Task OnInitializedAsync()
     {
@@ -113,10 +154,10 @@
             IsLoading = true;
 
             PagedResult = new PagedResult<TallerHomeDtoResponse>()
-                {
-                    CurrentPage = BusquedaRequest.PageNumber,
-                    RowsPerPage = BusquedaRequest.PageSize
-                };
+            {
+                CurrentPage = BusquedaRequest.PageNumber,
+                RowsPerPage = BusquedaRequest.PageSize
+            };
 
             await OnSearch();
 
@@ -145,6 +186,8 @@
                 PagedResult.Results = Talleres;
                 PagedResult.RowCount = Talleres.Count;
                 PagedResult.TotalPages = response.TotalPages;
+                PagedResult.CurrentPage = BusquedaRequest.PageNumber;
+                PagedResult.RowsPerPage = BusquedaRequest.PageSize;
             }
         }
         catch (Exception ex)
@@ -157,19 +200,101 @@
         }
     }
 
-    private async Task PaginaCambiada()
+    private async Task ChangePage(int page)
     {
-        IsLoading = true;
-        BusquedaRequest.PageNumber = PagedResult.CurrentPage;
-        BusquedaRequest.PageSize = PagedResult.RowsPerPage;
-
+        if (page < 1 || (PagedResult?.TotalPages > 0 && page > PagedResult.TotalPages)) return;
+        BusquedaRequest.PageNumber = page;
+        PagedResult.CurrentPage = page;
         await OnSearch();
+    }
+
+    private async Task PrevPage()
+    {
+        if (IsFirstPage) return;
+        await ChangePage(PagedResult.CurrentPage - 1);
+    }
+
+    private async Task NextPage()
+    {
+        if (IsLastPage) return;
+        await ChangePage(PagedResult.CurrentPage + 1);
+    }
+
+    private async Task ChangePageSize(ChangeEventArgs e)
+    {
+        if (int.TryParse(e?.Value?.ToString(), out var newSize))
+        {
+            BusquedaRequest.PageSize = newSize;
+            BusquedaRequest.PageNumber = 1;
+            await OnSearch();
+        }
     }
 
     private async Task FilasPorPagina()
     {
         BusquedaRequest.PageNumber = PagedResult.CurrentPage;
         BusquedaRequest.PageSize = PagedResult.RowsPerPage;
+        await OnSearch();
+    }
+    private List<int?> GetVisiblePages()
+    {
+        var pages = new List<int?>();
+
+        if (PagedResult == null || PagedResult.TotalPages <= 0)
+            return pages;
+
+        int total = PagedResult.TotalPages;
+        int current = Math.Max(1, PagedResult.CurrentPage);
+        int max = MaxPageButtons;
+
+        if (total <= max)
+        {
+            for (int i = 1; i <= total; i++) pages.Add(i);
+            return pages;
+        }
+
+        int half = max / 2;
+        int start = current - half + 1;
+        if (start < 1) start = 1;
+        int end = start + max - 1;
+        if (end > total)
+        {
+            end = total;
+            start = total - max + 1;
+        }
+
+        if (start > 1)
+        {
+            pages.Add(1);
+            if (start > 2)
+            {
+                pages.Add(null);
+            }
+        }
+
+        for (int i = start; i <= end; i++)
+        {
+            pages.Add(i);
+        }
+
+        if (end < total)
+        {
+            if (end < total - 1)
+            {
+                pages.Add(null);
+            }
+            pages.Add(total);
+        }
+
+        return pages;
+    }
+
+    private async Task PaginaCambiada()
+    {
+        IsLoading = true;
+        BusquedaRequest.PageNumber = PagedResult.CurrentPage;
+        BusquedaRequest.PageSize = PagedResult.RowsPerPage;
+
         await OnSearch();
     }
 

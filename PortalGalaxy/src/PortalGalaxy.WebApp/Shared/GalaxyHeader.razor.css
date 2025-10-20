@@ -26,3 +26,10 @@
     position: absolute; left: .5rem; right: .5rem; bottom: .35rem;
     height: 2px; background: #fff; border-radius: 1px; opacity: .9;
 }
+.user-dropdown .dropdown-toggle::after {
+    display: none;
+}
+
+.user-dropdown .nav-link::after {
+    content: none !important;
+}

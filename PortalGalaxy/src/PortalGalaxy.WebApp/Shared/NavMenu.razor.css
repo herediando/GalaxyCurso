@@ -1,0 +1,24 @@
+.galaxy-sidebar {
+    background: #f8f9fa;
+}
+
+
+.btn-ghost {
+    background: transparent;
+    box-shadow: none;
+}
+
+.nav .btn,
+.accordion-body .btn {
+    border-radius: .5rem;
+}
+
+.nav a.active,
+.accordion-body a.active {
+    background: #0d6efd !important; 
+    color: #fff !important;
+    border-color: #0d6efd !important;
+}
+.accordion-collapse {
+    transition: height .25s ease, transform .25s ease;
+}

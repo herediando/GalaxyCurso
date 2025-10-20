@@ -73,10 +73,10 @@
         @context.Situacion
     </GridColumn>
     <GridColumn TItem="TallerDtoResponse" HeaderText="Acciones">
-        <button type="button" class="btn" @onclick="() => OnEditar(context.Id)">
+        <button type="button" class="btn btn-success" @onclick="() => OnEditar(context.Id)">
             <i class="bi bi-pencil-fill"></i>
         </button>
-        <button type="button" class="btn" @onclick="() => OnEliminar(context.Id)">
+        <button type="button" class="btn btn-warning" @onclick="() => OnEliminar(context.Id)">
             <i class="bi bi-trash-fill"></i>
         </button>
     </GridColumn>

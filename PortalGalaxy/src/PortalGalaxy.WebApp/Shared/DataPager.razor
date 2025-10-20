@@ -8,7 +8,7 @@ else
         <div class="col-md-2">
             Filas por página:
             <select @onchange="PaginaSizeChanged">
-                <option>5</option>
+                <option>100</option>
                 <option>10</option>
                 <option>15</option>
                 <option>20</option>
@@ -95,7 +95,7 @@ else
     private void PaginaSizeChanged(ChangeEventArgs e)
     {
         if (e.Value is null) return;
-        var size = int.Parse(e.Value.ToString() ?? "5");
+        var size = int.Parse(e.Value.ToString() ?? "100");
         OnPageSizeClicked(size);
     }
 }
